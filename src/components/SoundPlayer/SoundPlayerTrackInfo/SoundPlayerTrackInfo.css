@@ -1,0 +1,22 @@
+.soudl-player__track-info__block {
+    top: 10px;
+    width: 275px;
+    height: 40px;
+    display: block;
+}
+
+.soudl-player__track-info__thumbnail {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+
+    border-radius: 2px;
+
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+    outline: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}

@@ -1,0 +1,16 @@
+.content {
+    background: #ffffff;
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    background-size: cover;
+    /* padding-top: 60px; */
+    z-index: 2;
+    padding-bottom: 20px;
+    /* margin-bottom: 20px; */
+}
+
+body {
+    background: #F5F4F4;
+    font-family: 'Lato', sans-serif;
+}
