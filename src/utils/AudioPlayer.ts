@@ -1,4 +1,4 @@
-import { playerStore, SetAudio, SetEpisode, ChangeTime, TYPE_CHANGE_PLAY_STATE, SetPlayState, ChangeVolume, ChangeProgress } from './../redux/playerStore';
+import { playerStore, SetAudio, SetEpisode, ChangeTime, SetPlayState, ChangeVolume, ChangeProgress } from './../redux/playerStore';
 import { PodcastEpisodeData } from './../shared/interfaces';
 
 export default class AudioPlayer {
@@ -20,29 +20,23 @@ export default class AudioPlayer {
     private source: HTMLSourceElement;
 
     public init(audio: HTMLAudioElement, source: HTMLSourceElement) {
-        console.log("init with elements: ", audio, source);
         this.audio = audio;
         this.source = source;
 
         this.audio.addEventListener('loadedmetadata', this.audio_onMetaData);
         this.audio.addEventListener('timeupdate', this.audio_onTimeUpdate);
 
-        playerStore.subscribe(() => {
-            const state = playerStore.getState();
-        });
+        // playerStore.subscribe(() => {
+        //     const state = playerStore.getState();
+        // });
     }
 
-    audio_onTimeUpdate = (event: Event) => {
-        // console.log('update audio time:', this.audio.currentTime);
-        
+    audio_onTimeUpdate = (event: Event) => {        
         playerStore.dispatch(ChangeTime(this.audio.currentTime));
         playerStore.dispatch(ChangeProgress(this.audio.currentTime / this.audio.duration));
     }
 
-    audio_onMetaData = (event: any) => {
-        // console.log('metadata:', event);
-        // console.log(this.audio.duration);
-        
+    audio_onMetaData = (event: any) => {        
         playerStore.dispatch(SetAudio(this.audio.duration));
     }
 
@@ -61,14 +55,8 @@ export default class AudioPlayer {
 
         if (this.currentEpisodeIsNull()) return;
 
-        console.log("play src: ", episode.audioFile);
-        
         this.audio.src = episode.audioFile;
-        // this.source.src = episode.audioFile;
         this.resume();
-
-        // console.log('source src:', this.source.src);
-        // console.log('source:', this.source);
     }
 
     public pause() {
@@ -92,8 +80,6 @@ export default class AudioPlayer {
         const willBeMuted = !(playerStore.getState().volume > 0);
         playerStore.dispatch(ChangeVolume(!willBeMuted ? 0 : 1));
 
-        // console.log('audio volume: ', willBeMuted ? 0 : 1);
-        
         this.audio.volume = willBeMuted ? 1 : 0;
     }
 

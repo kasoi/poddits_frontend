@@ -10,7 +10,7 @@ import SoundPlayerProgressBar from "./SoundPlayerProgressBar/SoundPlayerProgress
 import volumeFull from '../../assets/soundPlayer/volume_full.svg';
 import volumeLow from '../../assets/soundPlayer/volume_low.svg';
 import volumeSilent from '../../assets/soundPlayer/volume_silent.svg';
-import { playerStore, ChangeVolume } from "../../redux/playerStore";
+import { playerStore } from "../../redux/playerStore";
 import ValuesConverter from "../../utils/ValuesConverter";
 import SoundPlayerTrackInfo from "./SoundPlayerTrackInfo/SoundPlayerTrackInfo";
 import { PodcastEpisodeData } from "../../shared/interfaces";
@@ -57,8 +57,7 @@ export default class SoundPlayer extends React.Component<Props, State> {
                 isPlaying: pState.isPlaying,
                 volume: pState.volume,
                 progress: pState.progress
-            })
-            console.log('state changed:', playerStore.getState());
+            });
         })
     }
 
@@ -73,13 +72,11 @@ export default class SoundPlayer extends React.Component<Props, State> {
     }
 
     play = () => {
-        console.log('play');
         // this.setState({isPlaying: true});
         AudioPlayer.getInstance().resume();
     }
 
     pause = () => {
-        console.log('pause');
         // this.setState({isPlaying: false});
         AudioPlayer.getInstance().pause();
     }
@@ -90,7 +87,6 @@ export default class SoundPlayer extends React.Component<Props, State> {
     }
 
     onProgressChange = (progress: number) => {
-        console.log('progress set:', progress);
         AudioPlayer.getInstance().seek(progress);
     }
 

@@ -26,18 +26,14 @@ export default class HomePage extends React.Component<Props, State> {
         }
     }
 
-    async componentDidMount() {
-        console.log("Homepage did mount. Load podcast list");
-        
+    async componentDidMount() {        
         try {
             // const response = await axios.get("https://skatilsya.com/test/upwork/poddits/assets/podcast.php");
             const response = await axios.get("http://localhost:8010/query/podcast_episode");
 
             const episodes: PodcastEpisodeData[] = response.data;
-            console.log('current episode:', AudioPlayer.getInstance().currentEpisodeIsNull(), AudioPlayer.getInstance().getCurrentEpisode());
             
             if (AudioPlayer.getInstance().currentEpisodeIsNull()) {
-                console.log('set first episode to player');
                 AudioPlayer.getInstance().setEpisode(episodes[0]);
             }
 
