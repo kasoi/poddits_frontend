@@ -25,6 +25,11 @@
     height: 50px;
 }
 
+.soundPlayer__progressBlock {
+    padding-left: 15px;
+    display: flex;
+}
+
 .progressTime {
     padding-left: 7px;
     font-style: normal;

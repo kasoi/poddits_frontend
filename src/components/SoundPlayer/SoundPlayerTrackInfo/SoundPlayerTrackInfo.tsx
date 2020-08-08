@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PodcastEpisodeData } from "../../../shared/interfaces";
 import SoundPlayerButton from "../SoundPlayerButton/SoundPlayerButton";
+import './SoundPlayerTrackInfo.css';
 
 export interface Props {
     children?: React.ReactNode,
@@ -24,9 +25,14 @@ export default class SoundPlayerTrackInfo extends React.Component<Props, State> 
     }
 
     render() {
+
         return (
-            <div className={"soudl-player__track-info__block"}>
-                <SoundPlayerButton icon={this.props.episode.thumbnail} className={"soudl-player__track-info__thumbnail"} onClick={this.thumbnail_onClick}></SoundPlayerButton>
+            <div className={"soudplayer__track-info__block"}>
+                <SoundPlayerButton icon={this.props.episode.thumbnail} className={"soudplayer__track-info__thumbnail"} onClick={this.thumbnail_onClick}></SoundPlayerButton>
+                <div className={'soundplayer__track-info__name-block'}>
+                    <p className={'soundplayer__track-info__podcast-title'}>{ this.props.episode.title }</p>
+                    <p className={'soundplayer__track-info__podcast-subtitle'}>episode #</p>
+                </div>
             </div>
         )
     }

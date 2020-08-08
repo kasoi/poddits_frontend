@@ -10,7 +10,10 @@ import SoundPlayerProgressBar from "./SoundPlayerProgressBar/SoundPlayerProgress
 import volumeFull from '../../assets/soundPlayer/volume_full.svg';
 import volumeLow from '../../assets/soundPlayer/volume_low.svg';
 import volumeSilent from '../../assets/soundPlayer/volume_silent.svg';
-import { IPlayerContext, PlayerContextStore } from "../../shared/PlayerContext";
+import { playerStore, ChangeVolume } from "../../redux/playerStore";
+import ValuesConverter from "../../utils/ValuesConverter";
+import SoundPlayerTrackInfo from "./SoundPlayerTrackInfo/SoundPlayerTrackInfo";
+import { PodcastEpisodeData } from "../../shared/interfaces";
 
 export interface Props {
     children?: React.ReactNode
@@ -19,11 +22,12 @@ export interface Props {
 export interface State {
     isPlaying: boolean,
     volume: number,
-    isMuted: boolean
+    isMuted: boolean,
+    currentTime: number,
+    progress: number
 }
 
 export default class SoundPlayer extends React.Component<Props, State> {
-// const SoundPlayer = () => {
 
     audio = React.createRef<HTMLAudioElement>();
     source = React.createRef<HTMLSourceElement>();
@@ -35,12 +39,27 @@ export default class SoundPlayer extends React.Component<Props, State> {
         this.state = {
             isPlaying: false,
             volume: 1,
-            isMuted: false
+            isMuted: false,
+            currentTime: 0,
+            progress: 0
         }
     }
 
     componentDidMount() {
         AudioPlayer.getInstance().init(this.audio.current as HTMLAudioElement, this.source.current as HTMLSourceElement);
+
+        playerStore.subscribe(() => {
+            const pState = playerStore.getState();
+
+            // this.render();
+            this.setState({
+                currentTime: pState.currentTime as number,
+                isPlaying: pState.isPlaying,
+                volume: pState.volume,
+                progress: pState.progress
+            })
+            console.log('state changed:', playerStore.getState());
+        })
     }
 
     playPrev = () => {
@@ -55,27 +74,39 @@ export default class SoundPlayer extends React.Component<Props, State> {
 
     play = () => {
         console.log('play');
-        this.setState({isPlaying: true});
+        // this.setState({isPlaying: true});
         AudioPlayer.getInstance().resume();
     }
 
     pause = () => {
         console.log('pause');
-        this.setState({isPlaying: false});
+        // this.setState({isPlaying: false});
         AudioPlayer.getInstance().pause();
     }
 
     toggleVolume = () => {
-        this.setState({isMuted: !this.state.isMuted});
+        AudioPlayer.getInstance().toggleMute();
+        // this.setState({isMuted: willBeMuted});
+    }
+
+    onProgressChange = (progress: number) => {
+        console.log('progress set:', progress);
+        AudioPlayer.getInstance().seek(progress);
     }
 
     render() {
-
         const vol = this.state.isMuted ? 0 : this.state.volume;
 
         let volumeIcon = volumeFull;
         if (vol < 0.6) volumeIcon = volumeLow;
         if (vol === 0) volumeIcon = volumeSilent;
+
+        const pState = playerStore.getState();
+        const totalTime = ValuesConverter.convertTime(pState.totalTime || 0);
+        const currentTime = ValuesConverter.convertTime(pState.currentTime as number || 0);
+
+        const trackInfo = pState.currentPodcastEpisode ? <SoundPlayerTrackInfo 
+            episode={pState.currentPodcastEpisode as PodcastEpisodeData}></SoundPlayerTrackInfo> : <div></div>
 
         return (
             <div className={"panel"}>
@@ -87,15 +118,20 @@ export default class SoundPlayer extends React.Component<Props, State> {
                             onClick={this.state.isPlaying ? this.pause : this.play}></SoundPlayerButton>
                         <SoundPlayerButton icon={nextIcon}
                             onClick={this.playNext}></SoundPlayerButton>
-                        <SoundPlayerProgressBar></SoundPlayerProgressBar>
-                        <p className={"progressTime"}>08:15</p>
+                        <div className={"soundPlayer__progressBlock"}>
+                            <p className={"progressTime"}>{ currentTime }</p>
+                            <SoundPlayerProgressBar 
+                                progress={pState.progress} 
+                                onChange={this.onProgressChange}></SoundPlayerProgressBar>
+                            <p className={"progressTime"}>{ totalTime }</p>
+                        </div>
                         <audio ref={this.audio}>
                             <source ref={this.source} type="audio/mpeg" />
                             Your browser does not support the audio element.
                         </audio>
                         <SoundPlayerButton
                             icon={volumeIcon} onClick={this.toggleVolume}></SoundPlayerButton>
-                        
+                        {trackInfo}
                     </div>
                 </div>
             </div>

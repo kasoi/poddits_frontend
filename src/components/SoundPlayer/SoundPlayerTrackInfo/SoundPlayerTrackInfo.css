@@ -1,12 +1,16 @@
-.soudl-player__track-info__block {
+.soudplayer__track-info__block {
+    margin-left: 30px;
+    float: left;
     top: 10px;
-    width: 275px;
+    margin-top: auto;
+    width: 405px;
     height: 40px;
-    display: block;
+    display: grid;
+    background-color: antiquewhite;
 }
 
-.soudl-player__track-info__thumbnail {
-    position: absolute;
+.soudplayer__track-info__thumbnail {
+    position: relative;
     width: 30px;
     height: 30px;
 
@@ -19,4 +23,34 @@
     outline: none;
     border: none;
     background-color: rgba(0, 0, 0, 0);
+}
+
+.soundplayer__track-info__name-block {
+    position: fixed;
+    margin-left: 41px;
+    width: 235px;
+    height: 30px;
+}
+
+.soundplayer__track-info__podcast-title {
+    width: 100%;
+    font-size: 12px;
+    line-height: 14px;
+    top: 0px;
+    margin-top: auto;
+    color: #2E2F30;
+    word-wrap: none;
+    overflow: hidden;
+    /* display: inline-block; */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.soundplayer__track-info__podcast-subtitle {
+    position: absolute;
+    top: 17px;
+    margin-top: auto;
+    font-size: 12px;
+    line-height: 14px;
+    width: 100%;
 }

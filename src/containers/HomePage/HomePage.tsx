@@ -2,6 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import {PodcastEpisodeData} from "../../shared/interfaces";
 import PodcastsList from "../../components/PodcastsList/PodcastsList";
+import AudioPlayer from "../../utils/AudioPlayer";
 
 export interface Props {
     children?: React.ReactNode
@@ -33,6 +34,12 @@ export default class HomePage extends React.Component<Props, State> {
             const response = await axios.get("http://localhost:8010/query/podcast_episode");
 
             const episodes: PodcastEpisodeData[] = response.data;
+            console.log('current episode:', AudioPlayer.getInstance().currentEpisodeIsNull(), AudioPlayer.getInstance().getCurrentEpisode());
+            
+            if (AudioPlayer.getInstance().currentEpisodeIsNull()) {
+                console.log('set first episode to player');
+                AudioPlayer.getInstance().setEpisode(episodes[0]);
+            }
 
             const cut = episodes.slice(0, 50);
             this.setState({podcasts: cut});

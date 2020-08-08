@@ -4,11 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
+import { Provider } from 'react-redux';
+// import PlayerTestApp from './del/PlayerTestApp';
+import { playerStore } from './redux/playerStore';
 
 const application = (
   <React.StrictMode>
     <BrowserRouter basename={"/"}>
-      <App />
+      <Provider store={playerStore}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 )

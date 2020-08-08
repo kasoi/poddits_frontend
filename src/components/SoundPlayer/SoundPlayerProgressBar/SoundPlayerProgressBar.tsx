@@ -1,17 +1,19 @@
 import * as React from "react";
 import './SoundPlayerProgressBar.css';
+import { playerStore, ChangeProgress } from "../../../redux/playerStore";
 
 export interface Props {
     children?: React.ReactNode,
     backgroundColor?: string,
     activeColor?: string,
     width?: number,
-    initialProgress?: number
+    progress: number,
+    onChange: Function,
 }
 
 export interface State {
     width: number,
-    progress: number,
+    changingProgress: number,
     isChanging: boolean,
 }
 
@@ -27,12 +29,23 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
 
     constructor(props: Props) {
         super(props);
+        
 
         this.state = {
             width: props.width || 400,
-            progress: props.initialProgress || 0,
+            changingProgress: props.progress,
             isChanging: false,
         }
+    }
+
+    componentDidMount() {
+        // playerStore.subscribe(() => {
+        //     console.log('player store changed progress:', playerStore.getState().progress);
+            
+        //     this.setState({
+        //         progress: playerStore.getState().progress as number
+        //     })
+        // });
     }
 
     startMouseListen() {
@@ -59,15 +72,17 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         if (localX > this.state.width) localX = this.state.width;
         
         const progress = localX / this.state.width;
+        playerStore.dispatch(ChangeProgress(progress));
 
         this.setState({
-            progress: progress
+            changingProgress: progress
         })
     }
 
     window_onMouseUp = (event: MouseEvent) => {
         this.stopMouseListen();
 
+        this.props.onChange(this.state.changingProgress);
         this.setState({isChanging: false});
     }
 
@@ -78,8 +93,13 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
     }
 
     render() {
+        let progress = this.props.progress;
+        if (this.state.isChanging) progress = this.state.changingProgress;
+
+        if (isNaN(progress)) progress = 0;
+        
         let circleStyle: CircleStyle = {
-            left: this.state.progress * this.state.width
+            left: progress * this.state.width
         }
 
         if (this.state.isChanging) {
@@ -96,7 +116,7 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
                 <div className={"backgroundLine"}></div>
                 <div 
                     className={"progressLine"}
-                    style={{width: this.state.progress * this.state.width}}></div>
+                    style={{width: progress * this.state.width}}></div>
                 <div 
                     className={"progressCircle"}
                     style={circleStyle}
