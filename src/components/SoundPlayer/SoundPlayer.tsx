@@ -103,6 +103,8 @@ export default class SoundPlayer extends React.Component<Props, State> {
 
         const trackInfo = pState.currentPodcastEpisode ? <SoundPlayerTrackInfo 
             episode={pState.currentPodcastEpisode as PodcastEpisodeData}></SoundPlayerTrackInfo> : <div></div>
+        
+        // const favorite = pState
 
         return (
             <div className={"panel"}>

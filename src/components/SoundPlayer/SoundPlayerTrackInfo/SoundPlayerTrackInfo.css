@@ -6,7 +6,6 @@
     width: 405px;
     height: 40px;
     display: grid;
-    background-color: antiquewhite;
 }
 
 .soudplayer__track-info__thumbnail {
@@ -53,4 +52,5 @@
     font-size: 12px;
     line-height: 14px;
     width: 100%;
+    color: #989898;
 }

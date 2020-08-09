@@ -51,6 +51,11 @@ export default class AudioPlayer {
     }
 
     public playEpisode(episode: PodcastEpisodeData) {
+        if (this.currentEpisode === episode) {
+            this.resume();
+            return;
+        }
+
         this.currentEpisode = episode;
 
         if (this.currentEpisodeIsNull()) return;
@@ -89,5 +94,11 @@ export default class AudioPlayer {
 
     public getCurrentEpisode(): PodcastEpisodeData {
         return this.currentEpisode as PodcastEpisodeData;
+    }
+
+    public episodeIsPlaying(episode: PodcastEpisodeData): boolean {
+        if (episode !== this.currentEpisode) return false;
+
+        return playerStore.getState().isPlaying;
     }
 }

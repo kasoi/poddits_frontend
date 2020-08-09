@@ -1,0 +1,24 @@
+.imageButton_button {
+    position: relative;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.imageButton_button:hover {
+    opacity: 0.9;
+    outline: none;
+    border: none;
+}
+
+.imageButton_button:active {
+    opacity: 1;
+    outline: none;
+    border: none;
+}

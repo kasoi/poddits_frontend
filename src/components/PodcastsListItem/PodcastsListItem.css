@@ -15,11 +15,16 @@
     height: 120px;
 }
 
+.podcastList_playerButton {
+    opacity: 75%;
+    display: inline-block;
+}
+
 .title {
     position: absolute;
-    left: 155px;
+    left: 193px;
     top: -5px;
-    width: 800px;
+    width: calc(100% - 193px);
 
     font-family: Lato;
     font-style: normal;
@@ -56,9 +61,9 @@
 }
 
 .description {
-    position: absolute;
-    width: 800px;
-    height: 55px;
+    position: relative;
+    width: calc(100% - 155px);
+    height: 52px;
     left: 155px;
     right: 295px;
     top: 43px;
@@ -75,4 +80,33 @@
     overflow: hidden;
     display: inline-block;
     text-overflow: ellipsis; 
+}
+
+.podcastListItem_playerButton {
+    display: inline-block;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    margin-left: 155px;
+    margin-top: 7px;
+    
+    cursor: pointer;
+    opacity: 0.8;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline: none;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.podcastListItem_playerButton:hover {
+    opacity: 0.9;
+    outline: none;
+    border: none;
+}
+
+.podcastListItem_playerButton:active {
+    opacity: 1;
+    outline: none;
+    border: none;
 }

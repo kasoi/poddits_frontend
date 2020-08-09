@@ -3,6 +3,9 @@ import { PodcastEpisodeData } from "../../shared/interfaces";
 import "./PodcastsListItem.css";
 import TimeAgo from "../../utils/TimeAgo";
 import AudioPlayer from "../../utils/AudioPlayer";
+import pauseIcon from '../../assets/episode_item/pause.svg';
+import playIcon from '../../assets/episode_item/play.svg';
+import { playerStore } from "../../redux/playerStore";
 
 export interface Props {
     children?: React.ReactNode;
@@ -11,6 +14,7 @@ export interface Props {
 
 export interface State {
     titleData: string;
+    isPlaying: boolean;
 }
 
 export default class PodcastsListItem extends React.Component<Props, State> {
@@ -21,7 +25,8 @@ export default class PodcastsListItem extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            titleData: ""
+            titleData: "",
+            isPlaying: false
         }
     }
 
@@ -33,12 +38,28 @@ export default class PodcastsListItem extends React.Component<Props, State> {
             titleData = currentTitle.scrollWidth > currentTitle.offsetWidth ? this.props.data.title : "";
         }
         if (titleData !== '') this.setState({titleData: titleData});
+
+        playerStore.subscribe(() => {
+            const isPlaying = AudioPlayer.getInstance().episodeIsPlaying(this.props.data);
+            this.setState({
+                isPlaying: isPlaying
+            })
+        });
     }
 
     playOrPause = () => {
         console.log('call play episode: ', this.props.data);
         
         AudioPlayer.getInstance().playEpisode(this.props.data);
+    }
+
+    playerButton_onClick = () => {
+        if (AudioPlayer.getInstance().episodeIsPlaying(this.props.data)) {
+            AudioPlayer.getInstance().pause();
+        }
+        else {
+            AudioPlayer.getInstance().playEpisode(this.props.data);
+        }
     }
 
     render() {
@@ -53,16 +74,22 @@ export default class PodcastsListItem extends React.Component<Props, State> {
             const currentTitle = this.titleRef.current;
             titleData = currentTitle.scrollWidth > currentTitle.offsetWidth ? data.title : "";
         }
+
+        const playerButtonIcon = this.state.isPlaying ? pauseIcon : playIcon;
+        const playerButtonStyle = {backgroundImage: 'url(' + playerButtonIcon + ')'};
         
         return (
             <div className={"container"}>
-                <img src={thumbUrl} alt={"thumbnail"} className={"image"} onClick={this.playOrPause} />
+                <img src={thumbUrl} alt={"thumbnail"} className={"image"} />
+                <button className={'podcastListItem_playerButton'} 
+                    style={playerButtonStyle}
+                    onClick={this.playerButton_onClick}></button>
                 <div className={"title"} title={titleData} ref={this.titleRef}> {data.title}</div>
                 <div className={"description"}>{ data.description }</div>
                 <div className={"bottomDiv"}>
                     <span className={"dateColor"} title={dateText} >{ TimeAgo.timeAgo(date) }</span>&nbsp;
                     <span className={"dateColor"}>{ " by " }</span>
-                    <a href={"#/"} className={"secondaryLink"}>{ data.author }</a>
+                    <a href={"#/"} className={"secondaryLink"}>{ data.name }</a>
                 </div>
             </div>
         )

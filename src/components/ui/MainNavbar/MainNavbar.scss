@@ -1,4 +1,5 @@
 $paddingX: 30px;
+$maxWidth: 980px;
 
 .MainNavbar {
     /* position: fixed; */
@@ -16,7 +17,7 @@ $paddingX: 30px;
 
 .Menu {
     display: flex;
-    max-width: 1200px;
+    max-width: $maxWidth;
     height: 60px;
     // background: #dedede;
     position: relative;
