@@ -9,6 +9,7 @@ import pauseIcon from '../../assets/soundPlayer/pause.svg';
 import SoundPlayerProgressBar from "./SoundPlayerProgressBar/SoundPlayerProgressBar";
 import volumeFull from '../../assets/soundPlayer/volume_full.svg';
 import volumeLow from '../../assets/soundPlayer/volume_low.svg';
+import volumeMid from '../../assets/soundPlayer/volume_mid.svg';
 import volumeSilent from '../../assets/soundPlayer/volume_silent.svg';
 import { playerStore } from "../../redux/playerStore";
 import ValuesConverter from "../../utils/ValuesConverter";
@@ -90,11 +91,20 @@ export default class SoundPlayer extends React.Component<Props, State> {
         AudioPlayer.getInstance().seek(progress);
     }
 
+    onVolumeChange = (volume: number) => {
+        AudioPlayer.getInstance().setVolume(volume);
+    }
+
+    onVolumeMouseChange = (volume: number) => {
+        AudioPlayer.getInstance().setVolume(volume);
+    }
+
     render() {
         const vol = this.state.isMuted ? 0 : this.state.volume;
 
         let volumeIcon = volumeFull;
-        if (vol < 0.6) volumeIcon = volumeLow;
+        if (vol < 0.7) volumeIcon = volumeMid;
+        if (vol < 0.35) volumeIcon = volumeLow;
         if (vol === 0) volumeIcon = volumeSilent;
 
         const pState = playerStore.getState();
@@ -105,6 +115,14 @@ export default class SoundPlayer extends React.Component<Props, State> {
             episode={pState.currentPodcastEpisode as PodcastEpisodeData}></SoundPlayerTrackInfo> : <div></div>
         
         // const favorite = pState
+        const timeProgress = <SoundPlayerProgressBar 
+            width={200}
+            progress={pState.progress} 
+            onChange={this.onProgressChange}></SoundPlayerProgressBar>;
+
+        const volumeProgress = <SoundPlayerProgressBar progress={pState.volume} onChange={this.onVolumeChange}
+            onMouseChange={this.onVolumeMouseChange}
+            width={100}></SoundPlayerProgressBar>;
 
         return (
             <div className={"panel"}>
@@ -118,9 +136,7 @@ export default class SoundPlayer extends React.Component<Props, State> {
                             onClick={this.playNext}></SoundPlayerButton>
                         <div className={"soundPlayer__progressBlock"}>
                             <p className={"progressTime"}>{ currentTime }</p>
-                            <SoundPlayerProgressBar 
-                                progress={pState.progress} 
-                                onChange={this.onProgressChange}></SoundPlayerProgressBar>
+                            {timeProgress}
                             <p className={"progressTime"}>{ totalTime }</p>
                         </div>
                         <audio ref={this.audio}>
@@ -129,6 +145,7 @@ export default class SoundPlayer extends React.Component<Props, State> {
                         </audio>
                         <SoundPlayerButton
                             icon={volumeIcon} onClick={this.toggleVolume}></SoundPlayerButton>
+                        {volumeProgress}
                         {trackInfo}
                     </div>
                 </div>

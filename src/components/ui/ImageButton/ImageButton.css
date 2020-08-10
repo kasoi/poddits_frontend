@@ -9,6 +9,10 @@
     outline: none;
     border: none;
     background-color: rgba(0, 0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility:    hidden;
+    -ms-backface-visibility:     hidden;
 }
 
 .imageButton_button:hover {

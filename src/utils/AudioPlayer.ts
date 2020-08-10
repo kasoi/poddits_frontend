@@ -88,6 +88,12 @@ export default class AudioPlayer {
         this.audio.volume = willBeMuted ? 1 : 0;
     }
 
+    public setVolume(volume: number) {
+        this.audio.volume = volume;
+
+        playerStore.dispatch(ChangeVolume(volume));
+    }
+
     public currentEpisodeIsNull(): boolean {
         return this.currentEpisode === null || this.currentEpisode === undefined;
     }

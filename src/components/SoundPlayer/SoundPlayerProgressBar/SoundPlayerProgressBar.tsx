@@ -1,20 +1,22 @@
 import * as React from "react";
 import './SoundPlayerProgressBar.css';
-import { playerStore, ChangeProgress } from "../../../redux/playerStore";
+import AudioPlayer from "../../../utils/AudioPlayer";
 
-export interface Props {
+interface Props {
     children?: React.ReactNode,
-    backgroundColor?: string,
-    activeColor?: string,
     width?: number,
     progress: number,
     onChange: Function,
+    onMouseChange?: Function,
 }
 
-export interface State {
+interface State {
     width: number,
     changingProgress: number,
     isChanging: boolean,
+    backgroundLineStyle: string,
+    progressLineStyle: string,
+    progressCircleStyle: string,
 }
 
 interface CircleStyle {
@@ -30,22 +32,14 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
     constructor(props: Props) {
         super(props);
         
-
         this.state = {
             width: props.width || 400,
             changingProgress: props.progress,
             isChanging: false,
+            backgroundLineStyle: 'backgroundLine',
+            progressLineStyle: 'progressLine',
+            progressCircleStyle: 'progressCircle',
         }
-    }
-
-    componentDidMount() {
-        // playerStore.subscribe(() => {
-        //     console.log('player store changed progress:', playerStore.getState().progress);
-            
-        //     this.setState({
-        //         progress: playerStore.getState().progress as number
-        //     })
-        // });
     }
 
     startMouseListen() {
@@ -59,6 +53,8 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
     }
 
     window_onMouseMove = (event: MouseEvent) => {
+        console.log(this.props.width);
+        
         event.preventDefault(); // prevent text selection
 
         this.calculateProgress(event.pageX);
@@ -72,7 +68,8 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         if (localX > this.state.width) localX = this.state.width;
         
         const progress = localX / this.state.width;
-        playerStore.dispatch(ChangeProgress(progress));
+
+        if (this.props.onMouseChange) this.props.onMouseChange(progress);
 
         this.setState({
             changingProgress: progress
@@ -86,7 +83,7 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         this.setState({isChanging: false});
     }
 
-    progressBar_onMouseDown = (event: React.MouseEvent) => {
+    progressBar_onMouseDown = (event: React.MouseEvent) => {        
         this.startMouseListen();
         this.calculateProgress(event.pageX);
         this.setState({isChanging: true});
@@ -94,9 +91,9 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
 
     render() {
         let progress = this.props.progress;
-        if (this.state.isChanging) progress = this.state.changingProgress;
+        if (this.state.isChanging === true) progress = this.state.changingProgress;
 
-        if (isNaN(progress)) progress = 0;
+        if (isNaN(progress)) progress = 0;        
         
         let circleStyle: CircleStyle = {
             left: progress * this.state.width
@@ -113,12 +110,12 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
             <div className={"progressBarBlock"} style={{ width: this.state.width }} 
                 onMouseDown={this.progressBar_onMouseDown} 
                 ref={this.blockRef}>
-                <div className={"backgroundLine"}></div>
+                <div className={this.state.backgroundLineStyle}></div>
                 <div 
-                    className={"progressLine"}
+                    className={this.state.progressLineStyle}
                     style={{width: progress * this.state.width}}></div>
                 <div 
-                    className={"progressCircle"}
+                    className={this.state.progressCircleStyle}
                     style={circleStyle}
                 ></div>
             </div>

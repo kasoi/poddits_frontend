@@ -1,17 +1,23 @@
 import * as React from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-export interface Props {
-    children?: React.ReactNode;
+interface PodcastPageProps {
     podcastId: string;
+}
+
+interface ComponentProps extends RouteComponentProps<PodcastPageProps> {
 }
 
 export interface State {
 }
 
-export default class PodcastPage extends React.Component<Props, State> {
+class PodcastPage extends React.Component<ComponentProps, State> {
 
-    constructor(props: Props) {
-        super(props)
+    constructor(props: ComponentProps) {
+        super(props);
+
+        console.log(props.match.params.podcastId);
+        
 
         this.state = {
         }
@@ -23,3 +29,5 @@ export default class PodcastPage extends React.Component<Props, State> {
         )
     }
 }
+
+export default withRouter(PodcastPage);
