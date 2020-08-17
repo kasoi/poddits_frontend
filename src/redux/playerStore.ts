@@ -82,28 +82,10 @@ export const audioStore = redux.createStore(playerReducer);
 
 export const playerStore = redux.createStore(playerReducer);
 
-const ep: PodcastEpisodeData = {
-    id: "0",
-    name: "che za name",
-    audioFile: "https://od-cmg.streamguys1.com/atlanta/atl750/20200212115823-2-12-2020.mp3?awCollectionId=atl750-09&awEpisodeId=20200212115823-2-12-2020",
-    author: "Cox Media Group",
-    title: "The Von Haessler Doctrine S7/E028 - Punch Drunk Radio",
-    description: "Join Eric and the Doctrinaires as they chat about the 1st Primary, happy celibacy, meme hatred, and much more!",
-    publishDate: new Date("2020-02-12T17:55:00.000Z"),
-    podcastId: "1116847329",
-    thumbnail: "https://is2-ssl.mzstatic.com/image/thumb/Podcasts123/v4/c7/ce/c3/c7cec3b1-702e-1b32-56e6-24f51bcd5917/mza_2144945811160033374.jpeg/30x30bb.jpg",
-    genres: [
-    "Arts",
-    "Podcasts",
-    "Comedy"
-    ],
-    feed: "http://rss-cmg.streamguys1.com/atlanta/atl750/the-eric-von-heassle.xml",
-}
-
 export const SetEpisode = (episode: PodcastEpisodeData) => {
     return {
         type: TYPE_ADD_EPISODE,
-        payload: ep
+        payload: episode
     }
 }
 

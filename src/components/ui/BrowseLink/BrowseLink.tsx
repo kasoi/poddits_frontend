@@ -1,5 +1,6 @@
 import * as React from "react";
 import './BrowseLink.css';
+import { Link } from "react-router-dom";
 
 export interface Props {
     children?: React.ReactNode;
@@ -21,7 +22,7 @@ export default class BrowseLink extends React.Component<Props, State> {
 
     render() {
         return (
-           <a className={"browseLink"} href={this.props.url}>{this.props.text}</a>
+           <Link className={"browseLink"} to={this.props.url}>{this.props.text}</Link>
         )
     }
 }

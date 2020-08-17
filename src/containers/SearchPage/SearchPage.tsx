@@ -53,8 +53,7 @@ class SearchPage extends React.Component<ComponentProps, State> {
         this.searchData = params.get("q") || '';
 
         try {
-            // const response = await axios.get(`https://skatilsya.com/test/upwork/poddits/assets/search.php?q=${this.searchData}`);
-            const response = await axios.get(`http://localhost:8010/query/search/${this.searchData}`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_PATH}/query/search/${this.searchData}`);
 
             const podcasts: PodcastEpisodeData[] = response.data;
 

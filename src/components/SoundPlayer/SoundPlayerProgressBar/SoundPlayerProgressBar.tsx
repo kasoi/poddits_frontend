@@ -1,6 +1,5 @@
 import * as React from "react";
 import './SoundPlayerProgressBar.css';
-import AudioPlayer from "../../../utils/AudioPlayer";
 
 interface Props {
     children?: React.ReactNode,
@@ -42,6 +41,17 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         }
     }
 
+    componentWillReceiveProps(nextProps: Props, prevState: State): State {
+        const newState = {} as State;
+
+        if (nextProps.width as number > 0 && nextProps.width !== prevState.width) {
+           newState.width = nextProps.width as number;
+           this.setState(newState); 
+        }
+
+        return newState;
+    }
+
     startMouseListen() {
         window.addEventListener('mouseup', this.window_onMouseUp);
         window.addEventListener('mousemove', this.window_onMouseMove);
@@ -52,9 +62,7 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         window.removeEventListener('mousemove', this.window_onMouseMove);
     }
 
-    window_onMouseMove = (event: MouseEvent) => {
-        console.log(this.props.width);
-        
+    window_onMouseMove = (event: MouseEvent) => {        
         event.preventDefault(); // prevent text selection
 
         this.calculateProgress(event.pageX);
@@ -104,7 +112,7 @@ export default class SoundPlayerProgressBar extends React.Component<Props, State
         }
         else {
             circleStyle.transition = '0.13s';
-        }
+        }        
 
         return (
             <div className={"progressBarBlock"} style={{ width: this.state.width }} 

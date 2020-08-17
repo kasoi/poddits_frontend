@@ -1,56 +1,66 @@
 .soudplayer__track-info__block {
-    margin-left: 30px;
+    margin-left: 20px;
     float: left;
-    top: 10px;
-    margin-top: auto;
-    width: 405px;
-    height: 40px;
-    display: grid;
+    margin-top: 6px;
+    width: 100%;
+    height: 20px;
+    display: block;
 }
 
 .soudplayer__track-info__thumbnail {
+    /* display: inline-block; */
+    float: left;
     position: relative;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
 
     border-radius: 2px;
 
     cursor: pointer;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 30px;
+    background-size: 20px;
     outline: none;
     border: none;
     background-color: rgba(0, 0, 0, 0);
 }
 
 .soundplayer__track-info__name-block {
-    position: fixed;
-    margin-left: 41px;
-    width: 235px;
+    float: left;
+    position: relative;
+    margin-left: 10px;
+    width: calc(100% - 40px);
     height: 30px;
 }
 
 .soundplayer__track-info__podcast-title {
-    width: 100%;
-    font-size: 12px;
+    float: left;
+    max-width: 50%;
+    font-size: 13px;
+    margin-top: 3px;
     line-height: 14px;
-    top: 0px;
-    margin-top: auto;
     color: #2E2F30;
     word-wrap: none;
     overflow: hidden;
-    /* display: inline-block; */
+
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .soundplayer__track-info__podcast-subtitle {
-    position: absolute;
-    top: 17px;
-    margin-top: auto;
-    font-size: 12px;
+    margin-left: 10px;
+    float: left;
+    position: relative;
+    margin-top: 3px;
+    font-size: 13px;
     line-height: 14px;
-    width: 100%;
+    max-width: calc(50% - 10px);
     color: #989898;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
 }

@@ -28,8 +28,7 @@ export default class HomePage extends React.Component<Props, State> {
 
     async componentDidMount() {        
         try {
-            // const response = await axios.get("https://skatilsya.com/test/upwork/poddits/assets/podcast.php");
-            const response = await axios.get("http://localhost:8010/query/podcast_episode");
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_PATH}/query/podcast_episode`);
 
             const episodes: PodcastEpisodeData[] = response.data;
             

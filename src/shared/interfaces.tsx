@@ -10,18 +10,29 @@ export interface PodcastData {
     thumbnail: string;
 }
 
-export interface PodcastEpisodeData {
-    author: string;
+export interface EpisodeData {
     title: string;
-    feed?: string;
-    genres: string[];
-    id: string;
-    podcastId: string;
-    name: string;
-    publishDate: Date;
-    thumbnail: string;
     description: string;
     audioFile: string;
+    publishDate: Date;
+    podcastId: string;
+    podcastDescription: string;
+}
+
+export interface PodcastEpisodeData {
+    title: string;
+    description: string;
+    audioFile: string;
+    publishDate: Date;
+    podcastId: string;
+    podcastDescription: string;
+
+    author: string;
+    feed?: string;
+    genres: string[];
+    id: string; 
+    name: string;
+    thumbnail: string;
 }
 
 export interface GenreData {

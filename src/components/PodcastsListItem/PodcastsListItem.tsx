@@ -6,6 +6,7 @@ import AudioPlayer from "../../utils/AudioPlayer";
 import pauseIcon from '../../assets/episode_item/pause.svg';
 import playIcon from '../../assets/episode_item/play.svg';
 import { playerStore } from "../../redux/playerStore";
+import { Link } from "react-router-dom";
 
 export interface Props {
     children?: React.ReactNode;
@@ -47,12 +48,6 @@ export default class PodcastsListItem extends React.Component<Props, State> {
         });
     }
 
-    playOrPause = () => {
-        console.log('call play episode: ', this.props.data);
-        
-        AudioPlayer.getInstance().playEpisode(this.props.data);
-    }
-
     playerButton_onClick = () => {
         if (AudioPlayer.getInstance().episodeIsPlaying(this.props.data)) {
             AudioPlayer.getInstance().pause();
@@ -80,7 +75,7 @@ export default class PodcastsListItem extends React.Component<Props, State> {
         
         return (
             <div className={"container"}>
-                <img src={thumbUrl} alt={"thumbnail"} className={"image"} />
+                <Link to={`/podcast/${data.podcastId}`}><img src={thumbUrl} alt={"thumbnail"} className={"image"} /></Link>
                 <button className={'podcastListItem_playerButton'} 
                     style={playerButtonStyle}
                     onClick={this.playerButton_onClick}></button>
@@ -89,7 +84,7 @@ export default class PodcastsListItem extends React.Component<Props, State> {
                 <div className={"bottomDiv"}>
                     <span className={"dateColor"} title={dateText} >{ TimeAgo.timeAgo(date) }</span>&nbsp;
                     <span className={"dateColor"}>{ " by " }</span>
-                    <a href={"#/"} className={"secondaryLink"}>{ data.name }</a>
+                    <Link to={`/podcast/${data.podcastId}`} className={"secondaryLink"}>{ data.name }</Link>
                 </div>
             </div>
         )

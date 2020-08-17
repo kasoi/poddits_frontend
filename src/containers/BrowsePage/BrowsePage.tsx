@@ -28,8 +28,7 @@ export default class BrowsePage extends React.Component<Props, State> {
 
     async loadGenres() {
         try {
-            // const response = await axios.get(`https://skatilsya.com/test/upwork/poddits/assets/genre.php`);
-            const response = await axios.get(`http://localhost:8010/query/genre`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_PATH}/query/genre`);
 
             const gens: GenreData[] = response.data;
 
@@ -46,7 +45,7 @@ export default class BrowsePage extends React.Component<Props, State> {
         const links: any[] = [];
         for (let index = 0; index < this.state.genres.length; index++) {
             const genre = this.state.genres[index];
-            const element = <BrowseLink url={"/browse/" + genre.genre} text={genre.genre} key={index} />;
+            const element = <BrowseLink url={`/genre/${genre.genre}`} text={genre.genre} key={index} />;
             links.push(element);
         }
 

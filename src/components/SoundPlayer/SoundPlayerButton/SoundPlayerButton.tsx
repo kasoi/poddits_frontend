@@ -28,12 +28,10 @@ export default class SoundPlayerButton extends React.Component<Props, State> {
 
     render() {        
         return (
-            <div>
                 <button 
                     className={this.state.className} 
                     style={{backgroundImage: 'url(' + this.props.icon + ')'}} 
                     onClick={this.callOnClick} />
-            </div>
         )
     }
 }

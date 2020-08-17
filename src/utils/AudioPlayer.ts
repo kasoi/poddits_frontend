@@ -55,8 +55,8 @@ export default class AudioPlayer {
             this.resume();
             return;
         }
-
-        this.currentEpisode = episode;
+        
+        this.setEpisode(episode);
 
         if (this.currentEpisodeIsNull()) return;
 

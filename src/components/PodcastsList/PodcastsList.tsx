@@ -25,13 +25,19 @@ export default class PodcastsList extends React.Component<Props, State> {
     render() {
         const items = [];
 
-        for (let index = 0; index < this.props.podcasts.length; index++) {
-            const podcast = <PodcastsListItem data={this.props.podcasts[index]} key={index} />;
-            items.push(podcast);
+        let content = <div className={'podcastsList_content'}>Loading content...</div>;
+
+        if (this.props.podcasts) {
+            for (let index = 0; index < this.props.podcasts.length; index++) {
+                const podcast = <PodcastsListItem data={this.props.podcasts[index]} key={index} />;
+                items.push(podcast);
+            }
+
+            content = <div className={'podcastsList_content'}>{ items }</div>;
         }
 
         return (
-            <div className={'content'}>{ items }</div>
+            content
         )
     }
 }

@@ -2,6 +2,7 @@ import * as React from "react";
 import Logo from '../../../assets/logo.svg';
 import './MainNavbar.scss';
 import MenuSearch from "../MenuSearch/MenuSearch";
+import { Link } from "react-router-dom";
 
 export interface Props {
     children?: React.ReactNode
@@ -23,11 +24,11 @@ export default class MainNavbar extends React.Component<Props, State> {
         return (
             <div className={"MainNavbar"}>
                 <div className={"Menu"}>
-                    <a href="/" className={"logo"}>
-                    <img src={Logo} className={"image"} alt="Poddits"/>
-                    </a>
+                    <Link to={"/"} className={"logo"}>
+                        <img src={Logo} className={"image"} alt="Poddits"/>
+                    </Link>
                     <div className="divider"/>
-                        <a href={"/browse"} className="link">Browse</a>
+                        <Link to={"/browse"} className="link">Browse</Link>
                     <div className="divider"/>
                     <MenuSearch />
                     { this.props.children }
